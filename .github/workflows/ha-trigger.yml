@@ -1,0 +1,29 @@
+name: Trigger from Webhook
+
+on:
+  workflow_dispatch: # For manuell testing
+  repository_dispatch:
+    types:
+      - homeassistant_event
+
+jobs:
+  run_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install yarn
+        run: |
+                npm install -g corepack
+                corepack enable
+                corepack prepare yarn@stable --activate
+
+      - name: Run Cypress test
+        run: |
+          yarn cypress run --spec cypress/e2e/park.cy.js
+        env:
+          CYPRESS_PARKINGGURU_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+          CYPRESS_PLATE_NO: ${{ secrets.CYPRESS_PLATE_NO }}
+          CYPRESS_PARKINGGURU_USERNAME: ${{ vars.CYPRESS_USER }}
+        # yarn cypress run --spec cypress/e2e/park.cy.ts
