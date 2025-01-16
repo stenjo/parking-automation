@@ -21,6 +21,7 @@ jobs:
 
       - name: Run Cypress test
         run: |
+          yarn install
           yarn cypress run --spec cypress/e2e/park.cy.js
         env:
           CYPRESS_PARKINGGURU_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
