@@ -1,7 +1,7 @@
 name: Trigger from Webhook
 
 on:
-  workflow_dispatch: # For manuell testing
+  workflow_dispatch:
   repository_dispatch:
     types:
       - homeassistant_event
@@ -15,16 +15,15 @@ jobs:
 
       - name: Install yarn
         run: |
-                npm install -g corepack
-                corepack enable
-                corepack prepare yarn@stable --activate
+          npm install -g corepack
+          corepack enable
+          corepack prepare yarn@stable --activate
 
       - name: Run Cypress test
         run: |
           yarn install
-          yarn cypress run --spec cypress/e2e/park.cy.js
+          yarn cypress run --spec **/park.cy.ts
         env:
           CYPRESS_PARKINGGURU_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
           CYPRESS_PLATE_NO: ${{ secrets.CYPRESS_PLATE_NO }}
           CYPRESS_PARKINGGURU_USERNAME: ${{ vars.CYPRESS_USER }}
-        # yarn cypress run --spec cypress/e2e/park.cy.ts

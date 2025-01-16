@@ -1,6 +1,8 @@
 describe('Register parking at tastarustå', () => {
     const plate = Cypress.env('PLATE_NO'); // Replace with the actual plate number
 
+    console.log('Plate number:', plate);
+    
     it('should be able to register parking', () => {
         cy.visit('https://permit.parkingguru.com/no/Account/LogIn');
         cy.get('input[name="UserName"]').type(Cypress.env('PARKINGGURU_USERNAME'));
