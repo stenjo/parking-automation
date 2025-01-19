@@ -1,4 +1,4 @@
-name: Trigger from Webhook
+name: Register parking triggered from Homeassistang
 
 on:
   workflow_dispatch:
