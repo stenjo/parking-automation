@@ -1,6 +1,7 @@
 name: Send MQTT Message
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
