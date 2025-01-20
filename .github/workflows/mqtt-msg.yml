@@ -2,13 +2,18 @@ name: Send MQTT Message
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      mqtt_topic:
+        description: 'MQTT Topic'
+        type: string
+        required: true
+        default: 'test/topic'
+      mqtt_message:
+        description: 'MQTT Message'
+        type: string
+        required: true
+        default: 'Hello from GitHub Actions!'
 
 jobs:
   publish-mqtt:
@@ -22,10 +27,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y mosquitto-clients
 
       - name: Publish MQTT Message
-        env:
-          MQTT_HOST: ${{ secrets.MQTT_HOST }}
-          MQTT_PORT: ${{ secrets.MQTT_PORT }}
-          MQTT_USERNAME: ${{ secrets.MQTT_USERNAME }}
-          MQTT_PASSWORD: ${{ secrets.MQTT_PASSWORD }}
         run: |
-          mosquitto_pub -h "$MQTT_HOST" -p "$MQTT_PORT" -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -t "test/topic" -m "Hello from GitHub Actions!"
+          mosquitto_pub -h "${{ secrets.MQTT_HOST }}" \
+           -p "${{ secrets.MQTT_PORT }}" \
+           -u "${{ secrets.MQTT_USERNAME }}" \
+           -P "${{ secrets.MQTT_PASSWORD }}" \
+           -t "${{ inputs.mqtt_topic}}" \
+           -m "${{ inputs.mqtt_message}}"

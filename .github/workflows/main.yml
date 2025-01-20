@@ -1,0 +1,15 @@
+name: main workflow
+on:
+    push:
+        branches:
+        - main
+    pull_request:
+        branches:
+        - main
+
+jobs:
+    mqtt:
+        uses: ./.github/workflows/mqtt-msg.yml
+        with:
+            mqtt_topic: "test/topic"
+            mqtt_message: "Hello from GitHub Actions!"
