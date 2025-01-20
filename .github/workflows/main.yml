@@ -13,3 +13,5 @@ jobs:
         with:
             mqtt_topic: "test/topic"
             mqtt_message: "Hello from GitHub Actions!"
+        secrets: inherit
+
